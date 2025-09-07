@@ -1,0 +1,7 @@
+{
+  // Settings to hide specific folders in the workspace
+  "files.exclude": {
+    "**/__pycache__/": true,
+    ".venv/": true
+  }
+}
