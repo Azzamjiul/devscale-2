@@ -99,7 +99,10 @@ def process_research(topic: str):
                 messages.append(
                     {
                         "role": "tool",
-                        "content": function_response,
+                        "type": "tool",  # Added the required type field
+                        "content": json.dumps(
+                            function_response
+                        ),  # Serialize the response to a string
                         "tool_call_id": tool_call.id,
                     }
                 )
@@ -111,4 +114,5 @@ def process_research(topic: str):
 
 if __name__ == "__main__":
     topic = "give me news about latest US hot topics"
+    print("topic :", topic)
     process_research(topic)

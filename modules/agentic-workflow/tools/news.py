@@ -2,11 +2,12 @@ from constants import category_map
 from utils import extract_from_html, getHtml, openai_client, scrapeURL
 
 
-def news_scrapper():
+def news_scrapper(user_query: str):
     try:
         # System prompt for selecting a topic
-        SYSTEM_PROMPT = """
-        You are an intelligent agent tasked with selecting a news category from the following options:
+        SYSTEM_PROMPT = f"""
+        You are an intelligent agent tasked with selecting a news category based on the user's query: "{user_query}".
+        Choose the most relevant category from the following options:
         - Top Stories
         - US Headlines
         - International Headlines
@@ -71,6 +72,9 @@ def news_scrapper():
                     "content": article.get("content", "N/A"),
                 }
             )
+
+            if len(processed_articles) >= 5:
+                break
 
         return processed_articles
 
@@ -173,8 +177,13 @@ news_scrapper_def = {
         "description": "Scrape news articles based on a dynamically selected topic",
         "parameters": {
             "type": "object",
-            "properties": {},
-            "required": [],
+            "properties": {
+                "user_query": {
+                    "type": "string",
+                    "description": "The topic to search for news articles",
+                }
+            },
+            "required": ["user_query"],
         },
     },
 }
